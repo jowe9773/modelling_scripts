@@ -6,7 +6,7 @@ from pathlib import Path
 # INPUT SHAPEFILE
 # -----------------------------
 # Replace with your shapefile path
-shapefile_path = r"C:/Users/josie/OneDrive - UCB-O365/Masters Work/Masters Data and Analyses/20250429_cleaned_cart_data/20240603_exp1/20240603_exp1_nowood(MAS).CSV/20240603_exp1_nowood(MAS).shp"
+shapefile_path = r"C:/Users/josie/OneDrive - UCB-O365/Masters Work/Masters Data and Analyses/20250429_cleaned_cart_data/20240801_exp1/20240801_exp1_nowood(MAS).CSV/20240801_exp1_nowood(MAS).shp"
 # -----------------------------
 # LOAD SHAPEFILE
 # -----------------------------
