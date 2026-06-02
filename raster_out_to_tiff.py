@@ -153,10 +153,10 @@ if __name__ == "__main__":
     raster = "Depth"
 
     input_path = Path(
-        f"c:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/floodplain_n/refinement_1/flume_0_fp0{n}_ch025.gid/Rasters/Hydraulic/{raster}____300.0.asc"
+        f"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume/test.gid/Rasters/Hydraulic/Depth____100.0010729600599.asc"
     )
 
-    output_path = Path(f"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/QGIS/data/fp_calibration_model_outputs/{raster}/refinement_1/fp0{n}").with_suffix(".tif")
+    output_path = Path(f"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume/updated_geometry00701").with_suffix(".tif")
 
     print(output_path)
  

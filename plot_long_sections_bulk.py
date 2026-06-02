@@ -26,9 +26,7 @@ import matplotlib.pyplot as plt
 # ─────────────────────────────────────────────────────────────
 
 sample_path = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/"
-    "Model Setup and Calibration/QGIS/data/fp_calibration_model_outputs/"
-    "fp_comparison_refinement_1.shp"
+    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume/test_comparison00701.shp"
 )
 
 shapefile_path = sample_path
@@ -57,19 +55,16 @@ gdf["y_coord"] = gdf.geometry.y
 
 PLOT_ATTRIBUTE = [
     "depth",
-    "fp_005_1",
-    "fp_008_1",
-    "fp01_1",
-    "fp_012_1"
+    "CAD",
+    "TIF",
+    "TIF_007"
 ]
 
 ATTRIBUTE_COLORS = [
     "black",
     "green",
     "blue",
-    "purple",
-    "pink",
-    "red",
+    "purple"
 ]
 
 FILTER_COLUMN = "Pass"
@@ -80,8 +75,7 @@ FILTER_COLUMN = "Pass"
 # ─────────────────────────────────────────────────────────────
 
 OUTPUT_FOLDER = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/"
-    "Model Setup and Calibration/QGIS/data/plots/flooplain_variation_fine"
+    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume"
 )
 
 # create folder if it doesn't exist

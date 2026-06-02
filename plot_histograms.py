@@ -20,13 +20,12 @@ import numpy as np
 
 # ── CONFIG — edit these ───────────────────────────────────────────────────────
 
-SHAPEFILE = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/QGIS/data/fp_calibration_model_outputs/fp_comparison_refinement_1.shp"   # Path to your .shp file
+SHAPEFILE = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume/test_comparison00701.shp"   # Path to your .shp file
 
 COLUMNS = [                            # Columns to plot (add or remove as needed)
-    "fp_005_err",
-    "fp_008_err",
-    "fp_01_err",
-    "fp_012_err"
+    "CAD_err",
+    "TIF_err",
+    "TIF_007_er"
 ]
 
 BINS = 100                              # Number of histogram bins
