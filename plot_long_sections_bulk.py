@@ -26,7 +26,11 @@ import matplotlib.pyplot as plt
 # ─────────────────────────────────────────────────────────────
 
 sample_path = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume/test_comparison00701.shp"
+    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/model_results.gpkg"
+)
+
+OUTPUT_FOLDER = (
+    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/plots"
 )
 
 shapefile_path = sample_path
@@ -38,7 +42,7 @@ print(f"CRS       : {gdf.crs}")
 print(f"Geometry  : {gdf.geom_type.unique()}")
 print(f"Rows      : {len(gdf)}")
 print(f"Columns   : {list(gdf.columns)}")
-print(gdf.head())
+print("\n", gdf.tail())
 
 
 # ─────────────────────────────────────────────────────────────
@@ -52,19 +56,26 @@ gdf["y_coord"] = gdf.geometry.y
 # ─────────────────────────────────────────────────────────────
 # STEP 3 – Plot settings
 # ─────────────────────────────────────────────────────────────
+prefix_value = "best_model"
 
 PLOT_ATTRIBUTE = [
-    "depth",
-    "CAD",
-    "TIF",
-    "TIF_007"
+    'water_dept',
+    'depth_avg',
+
+
 ]
 
 ATTRIBUTE_COLORS = [
+    "lightgrey",
     "black",
     "green",
     "blue",
-    "purple"
+    "lightgreen",
+    "lightblue",
+    "purple",
+    "pink",
+    "red"
+    
 ]
 
 FILTER_COLUMN = "Pass"
@@ -74,9 +85,6 @@ FILTER_COLUMN = "Pass"
 # STEP 4 – Output folder
 # ─────────────────────────────────────────────────────────────
 
-OUTPUT_FOLDER = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume"
-)
 
 # create folder if it doesn't exist
 Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
@@ -89,7 +97,7 @@ Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 for pass_value in range(1, 7):
 
     # subset data
-    subset = gdf[gdf[FILTER_COLUMN] == pass_value].copy()
+    subset = gdf[gdf[FILTER_COLUMN] == str(pass_value)].copy()
 
     print(f"\n── Pass = {pass_value} ──")
     print(f"Rows after filter: {len(subset)}")
@@ -130,13 +138,14 @@ for pass_value in range(1, 7):
     plt.tight_layout()
 
     # output filename
-    out_file = f"{OUTPUT_FOLDER}/scatter_pass_{pass_value}.png"
+    out_file = f"{OUTPUT_FOLDER}/{prefix_value}_pass{pass_value}.png"
 
     # save figure
     plt.savefig(out_file, dpi=300)
 
     print(f"Saved: {out_file}")
 
+    plt.show()
     # close figure to avoid memory buildup
     plt.close(fig)
 

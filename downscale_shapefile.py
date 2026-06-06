@@ -4,8 +4,8 @@ from shapely.affinity import affine_transform
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-input_shp  = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/data/flume_geometry/flume_geometry.shp"
-output_shp = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/data/flume_geometry/true_scale_flume_geometry.shp"
+input_shp  = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/3D model of flume/dowel_hole_locatinos/0.25_dowel_locations.shp"
+output_shp = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/3D model of flume/dowel_hole_locatinos/true_scale_025_dowel_locations.shp"
 
 # ------------------------------------------------------------------
 # SCALING PARAMETERS  (mirrors the raster script)

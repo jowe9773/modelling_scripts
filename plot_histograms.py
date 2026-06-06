@@ -16,21 +16,26 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
 import numpy as np
+import pandas as pd
 
 
 # ── CONFIG — edit these ───────────────────────────────────────────────────────
 
-SHAPEFILE = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/true_shape_flume/test_comparison00701.shp"   # Path to your .shp file
+SHAPEFILE = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/model_results.gpkg"
 
 COLUMNS = [                            # Columns to plot (add or remove as needed)
-    "CAD_err",
-    "TIF_err",
-    "TIF_007_er"
+    'err_ch-01_fp_005',
+    'err_ch-01_fp_00625',
+    'err_ch-01_fp_0075',
+    'err_ch-01_fp_00875',
+    'err_ch-01_fp_01'
+
 ]
 
 BINS = 100                              # Number of histogram bins
 
-OUTPUT = None                          # Set to e.g. "histograms.png" to save,
+OUTPUT = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/plots/best_model_histogram.png"
+                                       # Set to e.g. "histograms.png" to save,
                                        # or leave as None to show interactively
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -45,33 +50,57 @@ def plot_histograms(gdf, columns, output_path=None, bins=30):
     sns.set_theme(style="whitegrid", palette="muted")
     palette = sns.color_palette("husl", n)
 
+    # ── Compute shared axis limits ────────────────────────────────────────────
+    all_data = pd.concat([gdf[col].dropna() for col in columns])
+    x_min, x_max = all_data.min(), all_data.max()
+
+    # Pre-compute counts to find shared y-limit
+    y_max = 0
+    for col in columns:
+        counts, _ = np.histogram(gdf[col].dropna(), bins=bins,
+                                 range=(x_min, x_max))
+        y_max = max(y_max, counts.max())
+    y_max *= 1.1  # 10% headroom
+
     fig, axes = plt.subplots(nrows, ncols, figsize=(12, 4 * nrows))
-    axes = np.array(axes).flatten()    # always a 1-D list of axes
+    axes = np.array(axes).flatten()
 
     for i, col in enumerate(columns):
         ax = axes[i]
         data = gdf[col].dropna()
 
-        ax.hist(data, bins=bins, color=palette[i], edgecolor="white",
+        mean, std = data.mean(), data.std()
+        rmse = np.sqrt((data ** 2).mean())
+
+        ax.hist(data, bins=bins, range=(x_min, x_max),
+                color=palette[i], edgecolor="white",
                 linewidth=0.5, alpha=0.85)
 
-        # Overlay a KDE curve
-        if data.std() > 0:
-            kde_x = np.linspace(data.min(), data.max(), 300)
-            from scipy.stats import gaussian_kde
-            kde = gaussian_kde(data)
-            ax2 = ax.twinx()
-            ax2.plot(kde_x, kde(kde_x), color=palette[i], linewidth=2,
-                     linestyle="--", alpha=0.7)
-            ax2.set_ylabel("Density", fontsize=9, color="grey")
-            ax2.tick_params(axis="y", labelcolor="grey", labelsize=8)
-            ax2.yaxis.set_major_formatter(mticker.FormatStrFormatter("%.4f"))
+        # ±1σ and ±2σ vertical lines
+        for nsig, (ls, lw, label) in enumerate(
+                [("--", 1.2, "±1σ"), ("-.", 1.0, "±2σ")], start=1):
+            for sign in (-1, 1):
+                ax.axvline(mean + sign * nsig * std,
+                           color="black", linestyle=ls, linewidth=lw,
+                           alpha=0.6,
+                           label=label if sign == 1 else None)
 
-        # Stats annotation
-        stats_text = (f"n = {len(data):,}/n"
-                      f"mean = {data.mean():.3g}/n"
-                      f"median = {data.median():.3g}/n"
-                      f"std = {data.std():.3g}")
+        ax.axvline(mean, color="black", linestyle="-", linewidth=1.4,
+                   alpha=0.8, label="mean")
+
+        ax.legend(fontsize=7, loc="upper left")
+
+        pct1 = 100 * ((data >= mean - std)   & (data <= mean + std)).mean()
+        pct2 = 100 * ((data >= mean - 2*std) & (data <= mean + 2*std)).mean()
+
+        stats_text = (f"n = {len(data):,}\n"
+                      f"mean = {mean:.3g}\n"
+                      f"median = {data.median():.3g}\n"
+                      f"std = {std:.3g}\n"
+                      f"RMSE = {rmse:.3g}\n"
+                      f"±1σ: [{mean-std:.3g}, {mean+std:.3g}]\n"
+                      f"±2σ: [{mean-2*std:.3g}, {mean+2*std:.3g}]")
+
         ax.text(0.97, 0.95, stats_text, transform=ax.transAxes,
                 fontsize=8, va="top", ha="right",
                 bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.7))
@@ -81,7 +110,9 @@ def plot_histograms(gdf, columns, output_path=None, bins=30):
         ax.set_ylabel("Count", fontsize=9)
         ax.tick_params(labelsize=8)
 
-    # Hide any unused subplot panels
+        ax.set_xlim(x_min, x_max)
+        ax.set_ylim(0, y_max)
+
     for j in range(n, len(axes)):
         axes[j].set_visible(False)
 
@@ -91,6 +122,7 @@ def plot_histograms(gdf, columns, output_path=None, bins=30):
     if output_path:
         fig.savefig(output_path, dpi=150, bbox_inches="tight")
         print(f"✅  Saved plot → {output_path}")
+        plt.show()
     else:
         plt.show()
 
@@ -102,10 +134,17 @@ gdf = gpd.read_file(SHAPEFILE)
 print(f"    {len(gdf):,} features loaded | CRS: {gdf.crs}")
 print(f"    Available columns: {[c for c in gdf.columns if c != 'geometry']}")
 
+# ── Filter to bounding box ────────────────────────────────────────────────────
+from shapely.geometry import box
+
+bbox = box(250, -2000, 9500, 2000)
+gdf = gdf[gdf.geometry.within(bbox)]
+print(f"    {len(gdf):,} features after bounding box filter")
+
 # Validate columns
 missing = [c for c in COLUMNS if c not in gdf.columns]
 if missing:
-    sys.exit(f"❌  Column(s) not found in shapefile: {missing}/n"
+    sys.exit(f"❌  Column(s) not found in shapefile: {missing}\n"
              f"    Check the 'Available columns' list above.")
 
 print(f"📊  Plotting histograms for: {COLUMNS}")

@@ -13,8 +13,9 @@ import cv2
 # USER SETTINGS
 # ============================================================
 
-RASTER_FOLDER = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Playing around with the model/1_0_playing_with_model.gid/Rasters/Hydraulic"
-WOOD_FILE     = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Playing around with the model/1_0_playing_with_model.gid/Wood/Wood.rep"
+
+RASTER_FOLDER = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/test_0.25/TIFfp00875_ch01_rfsd025.gid/Rasters/Hydraulic"
+WOOD_FILE     = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/test_0.25/TIFfp00875_ch01_rfsd025.gid/Wood/Wood.rep"
 OUTPUT_MOVIE  = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Playing around with the model/wood_flow_animation.mp4"
 
 FPS           = 10
