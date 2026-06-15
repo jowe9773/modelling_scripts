@@ -26,11 +26,11 @@ import matplotlib.pyplot as plt
 # ─────────────────────────────────────────────────────────────
 
 sample_path = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/model_results.gpkg"
+    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/0.5/results/model_results.gpkg"
 )
 
 OUTPUT_FOLDER = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/plots"
+    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/0.5/results/plots"
 )
 
 shapefile_path = sample_path
@@ -61,6 +61,7 @@ prefix_value = "best_model"
 PLOT_ATTRIBUTE = [
     'water_dept',
     'depth_avg',
+    '0.5x_fp0075_ch01125', 
 
 
 ]
@@ -68,13 +69,11 @@ PLOT_ATTRIBUTE = [
 ATTRIBUTE_COLORS = [
     "lightgrey",
     "black",
-    "green",
-    "blue",
-    "lightgreen",
-    "lightblue",
-    "purple",
-    "pink",
-    "red"
+    "navy", "blue", "deepskyblue", "cyan",
+    "mediumspringgreen", "limegreen", "green", "yellowgreen",
+    "yellow", "gold", "orange", "darkorange",
+    "red", "crimson", "magenta", "purple"
+
     
 ]
 

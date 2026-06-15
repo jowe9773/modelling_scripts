@@ -10,9 +10,9 @@ from scipy.spatial import cKDTree
 
 
 # --- INPUTS ---
-points_shapefile = r"C:/Users/josie/OneDrive - UCB-O365/Flume Data/processed_cart_data/20240606_exp1/20240606_exp1_nowood(MAS).CSV/20240606_exp1_nowood(MAS).shp"
-parent_directory = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes"
-output_directory = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results"
+points_shapefile = r"C:/Users/josie/OneDrive - UCB-O365/Flume Data/processed_cart_data/20240605_exp1/20240605_exp1_nowood(MAS).CSV/20240605_exp1_nowood(MAS).shp"
+parent_directory = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/0.5"
+output_directory = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/0.5/results"
 
 CRS = "EPSG:32615"
 COORD_SCALE = 1000.0
