@@ -61,7 +61,6 @@ class IberWoodResults:
                 ncols    = int(f.readline().split()[1])
                 nrows    = int(f.readline().split()[1])
 
-                # Header can be XLLCENTER or XLLCORNER — same for YLL
                 xll_line = f.readline().split()
                 yll_line = f.readline().split()
                 xll_type = xll_line[0].upper()
@@ -71,18 +70,20 @@ class IberWoodResults:
 
                 cellsize = float(f.readline().split()[1])
                 nodata   = float(f.readline().split()[1])
-                data     = np.loadtxt(f)
+
+                data = np.genfromtxt(
+                    f,
+                    missing_values="**********",
+                    filling_values=0.0
+                )
 
             data[data == nodata] = np.nan
 
-            # CORNER coords refer to the cell edge; shift by half a cell to get cell centres
             if "CORNER" in xll_type:
                 xll += cellsize / 2
             if "CORNER" in yll_type:
                 yll += cellsize / 2
 
-            # ASC files store row 0 at the top (north); flip so row 0 is at the bottom
-            # to match imshow origin='lower' — xll/yll remain the SW corner
             data = np.flipud(data)
 
             return data, ncols, nrows, xll, yll, cellsize
@@ -106,16 +107,15 @@ class IberWoodResults:
             data, ncols, nrows, xll, yll, cellsize = _read_ascii_raster(file)
             self.rasters.append({"time": time, "data": data})
 
-            #for the first raster read, save the extent details in the class instance
-            if len(self.raster_files) == 0:
-                self.ncols = ncols
-                self.nrows = nrows
-                self.xll = xll
-                self.yll = yll
-                self.cellsize = cellsize
+            self.ncols = ncols
+            self.nrows = nrows
+            self.xll = xll
+            self.yll = yll
+            self.cellsize = cellsize
 
         self.rasters = sorted(self.rasters, key=lambda x: x["time"])
 
+        pprint(self.rasters)
         print(f"{hydraulic_variable} rasters loaded from files")
 
     def check_data_alignment(self):
@@ -161,7 +161,7 @@ class IberWoodResults:
         )
 
         cbar = plt.colorbar(img, ax=ax)
-        cbar.set_label(self.hyraulic_variable)
+        cbar.set_label(self.hydraulic_variable)
         title = ax.set_title(f"Wood transport and {self.hydraulic_variable}")
         ax.set_aspect('equal')
 
@@ -169,45 +169,53 @@ class IberWoodResults:
         # DRAW WOOD PIECES
         # ============================================================
 
-        wood_patches = []
+        self.wood_patches = []
 
         def _draw_wood(frame_time):
-            global wood_patches
-            for p in wood_patches:
-                p.remove()
-            wood_patches = []
 
-            tol     = 0.01
-            current = self.wood[np.abs(self.wood["Time(s)"] - frame_time) < tol]
+            # Remove old patches
+            for p in self.wood_patches:
+                p.remove()
+            self.wood_patches = []
+
+            times = self.wood["Time(s)"].unique()
+
+            idx = np.argmin(np.abs(times - frame_time))
+            nearest_time = times[idx]
+
+            current = (
+                self.wood[self.wood["Time(s)"] == nearest_time]
+                if abs(nearest_time - frame_time) <= 0.5
+                else self.wood.iloc[0:0]
+)
 
             for _, row in current.iterrows():
-                x         = row["X"]
-                y         = row["Y"]
-                length    = row["Length(m)"]
-                diameter  = row["Diameter(m)"]
+
+                x = row["X"]
+                y = row["Y"]
+                length = row["Length(m)"]
+                diameter = row["Diameter(m)"]
                 angle_deg = np.degrees(row["Angle"])
 
-                # Place rectangle centred on (x, y) with zero rotation,
-                # then rotate about (x, y) via the transform — only one rotation applied
                 rect = patches.Rectangle(
                     (x - length / 2, y - diameter / 2),
                     length,
                     diameter,
-                    angle=0,                  # no built-in rotation
                     linewidth=1,
-                    edgecolor='black',
-                    facecolor='saddlebrown',
+                    edgecolor="black",
+                    facecolor="saddlebrown",
                     zorder=10
                 )
 
-                t = (
+                transform = (
                     patches.transforms.Affine2D()
                     .rotate_deg_around(x, y, angle_deg)
                     + ax.transData
                 )
-                rect.set_transform(t)
+
+                rect.set_transform(transform)
                 ax.add_patch(rect)
-                wood_patches.append(rect)
+                self.wood_patches.append(rect)
 
         # ============================================================
         # RENDER ONE FRAME → numpy array (H, W, 3)  BGR for cv2
@@ -248,11 +256,16 @@ class IberWoodResults:
         writer.write(first_frame)
         print(f"Frame 1 / {len(self.rasters)}")
 
+        print("")
+        print("Rasters:")
+        pprint(self.rasters)
+
         # ============================================================
         # RENDER REMAINING FRAMES
         # ============================================================
 
         for i, raster in enumerate(self.rasters[1:], start=2):
+            print(i)
             frame = _render_frame(raster)
             writer.write(frame)
             print(f"Frame {i} / {len(self.rasters)}")
@@ -268,16 +281,16 @@ class IberWoodResults:
 
 
 if __name__ == "__main__":
-    results = IberWoodResults(iber_folder="c:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/first steps setup and calibration/test_0.25/TIFfp00875_ch01_rfsd025.gid")
+    results = IberWoodResults(iber_folder="C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Learning Resources/Iber Numerical Modelling Course/My Work/day3_case_study_1.gid")
 
     results.load_wood_data()
 
-    results.load_hydraulic_data("Depth")
+    results.load_hydraulic_data("Velocity__x_")
 
     results.check_data_alignment()
     
-    results.save_results_as_video(CMAP ="Blues", V_MIN=0, V_MAX=0.6, DPI=200, FPS=10, 
-                                  OUTPUT_FN= "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Playing around with the model/wood_flow_animation.mp4")
+    results.save_results_as_video(CMAP ="turbo", V_MIN=0, V_MAX=1, DPI=200, FPS=10, 
+                                  OUTPUT_FN= "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Learning Resources/Iber Numerical Modelling Course/day3_case1_wood_velocity_animation.mp4")
 
 
     
