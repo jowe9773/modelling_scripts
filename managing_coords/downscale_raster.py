@@ -5,10 +5,11 @@ import numpy as np
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-input_tif = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/data/elevation_rasters/cleaned_flume_surface_elev.tif"
-output_tif = r"C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/data/elevation_rasters/true_scale_flume_surface_elev.tif"
+input_tif = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\0.25x_wood_volume_raster.tif"
+output_tif = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\0.25x_wood_volume_raster_scaled.tif"
 
-SCALE = 0.001  # mm → m conversion factor
+scale_data = True
+SCALE = 1000  # mm → m conversion factor
 
 # ------------------------------------------------------------------
 # OPEN INPUT
@@ -18,12 +19,13 @@ with rasterio.open(input_tif) as src:
     nodata = src.nodata
     old_transform = src.transform
 
-    # Convert elevation values from mm → m
-    if nodata is not None:
-        valid = data != nodata
-        data[valid] *= SCALE
-    else:
-        data *= SCALE
+    if scale_data == True:
+        # Convert elevation values from mm → m
+        if nodata is not None:
+            valid = data != nodata
+            data[valid] *= SCALE/100
+        else:
+            data *= SCALE/100
 
     # Scale pixel size by the same factor, keeping origin (0, 0) fixed.
     # old_transform.c and old_transform.f are the upper-left X and Y.
