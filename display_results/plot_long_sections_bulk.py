@@ -26,11 +26,11 @@ import matplotlib.pyplot as plt
 # ─────────────────────────────────────────────────────────────
 
 sample_path = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/0.5/results/model_results.gpkg"
+    r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\final_calibration_10\results\model_results_averaged.gpkg"
 )
 
 OUTPUT_FOLDER = (
-    "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/0.5/results/plots"
+    r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\final_calibration_10\results\plots"
 )
 
 shapefile_path = sample_path

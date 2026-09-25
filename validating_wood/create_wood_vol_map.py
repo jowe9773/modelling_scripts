@@ -9,9 +9,9 @@ from rasterio.transform import from_origin
 # Inputs
 # -------------------------------------------------------------------
 
-database_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\wood\0.25x_fp0075_ch01125.gid\Wood\Wood.rep"
+database_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\wood\1.0x_fp0075_ch01125.gid\Wood\Wood.rep"
 
-output_raster_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\0.25x_wood_volume_raster.tif"
+output_raster_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\1.0x_wood_volume_raster.tif"
 
 # Coarse output raster cell size (m)
 cell_size = 0.001

@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------
 
 #FOR FLUME RESULTS
-experiment_name = "20240529_exp2"
+experiment_name = "20240614_exp1"
 raster_path = (rf"C:\Users\josie\OneDrive - UCB-O365\Flume Data\processed_cart_data\{experiment_name}\{experiment_name}_difference.tif")
 mask_path = (rf"C:\Users\josie\OneDrive - UCB-O365\Flume Data\processed_cart_data\{experiment_name}\{experiment_name}_true_wood.shp")
 
 # FOR MODEL RESULTS
-raster_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\0.25x_wood_volume_raster_scaled.tif"
+raster_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\1.0x_wood_volume_raster_scaled.tif"
 mask_path = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\Data\3d Model Data\DEM based models\model_clip.shp"
 
 # -------------------------------------------------------------------
@@ -130,7 +130,7 @@ pltxmin_trans = -2000
 pltxmax_trans = 2000
 
 pltymin_long= 0
-pltymax_long = 5 *10**-5
+pltymax_long = 5*10**-5
 pltymin_trans = 0
 pltymax_trans = 8 *10**-5
 

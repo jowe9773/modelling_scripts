@@ -6,15 +6,15 @@ import numpy as np
 # =====================================================
 
 input_file = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\Data\Wood Data\ds_uncongested_parallel.xlsx"
-output_file = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\Data\Wood Data\ds_uncongested_parallel_imperfect.xlsx"
+output_file = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\Data\Wood Data\ds_uncongested_variation_xy_025.xlsx"
 
 # Random variation ranges
 # Values will be added to the existing values.
 
-x_range = (-0.05, 0.05)          # meters
-y_range = (-0.05, 0.05)          # meters
-angle_range = (-0.261799 + np.pi/2, 0.261799 + np.pi/2)      # radians
-density_range = (-50, 50)        # kg/m³
+x_range = (-0.25, 0.25)          # meters
+y_range = (-0.25, 0.25)          # meters
+angle_range = (0, 0)#(-0.523599 + np.pi/2, 0.523599 + np.pi/2)      # radians
+density_range = (0, 0)        # kg/m³
 
 print(angle_range)
 

@@ -4,11 +4,11 @@ from scipy.spatial import cKDTree
 from pathlib import Path
 
 # --- Configuration ---
-INPUT_FILE  = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results/model_results.gpkg"
-OUTPUT_DIR  = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/Model Setup and Calibration/DEM_based_model_with_headboxes/results"
-PASS_COL    = "Pass"
+INPUT_FILE  = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\final_calibration_10\results/model_results.gpkg"
+OUTPUT_DIR  = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\final_calibration_10\results"
 WINDOW_M    = 100.0
 OUTLIER_THR = 20
+PASS_COL    = "Pass"
 # ---------------------
 
 gdf = gpd.read_file(INPUT_FILE)

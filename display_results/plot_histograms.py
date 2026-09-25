@@ -16,14 +16,30 @@ import numpy as np
 import pandas as pd
 
 # ── CONFIG — edit these ─────────────────────────────────────────────────────────
-SHAPEFILE = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/nowood/model_results.gpkg"
+SHAPEFILE = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\final_calibration_10\results\model_results_averaged.gpkg"
 COLUMNS = [
-    'err_0.25x_fp0075_ch01125',
-    'err_0.5x_fp0075_ch01125',
-    'err_1.0x_fp0075_ch01125'
+    'err_1.0x_fp005_ch0.00875',
+    'err_1.0x_fp005_ch0.01',
+    'err_1.0x_fp005_ch0.01125', 
+    'err_1.0x_fp005_ch0.0125',
+
+    'err_1.0x_fp00625_ch0.00875',
+    'err_1.0x_fp00625_ch0.01',
+    'err_1.0x_fp00625_ch0.01125', 
+    'err_1.0x_fp00625_ch0.0125',
+
+    'err_1.0x_fp0075_ch0.00875',
+    'err_1.0x_fp0075_ch01',
+    'err_1.0x_fp0075_ch01125', 
+    'err_1.0x_fp0075_ch0125',
+
+    'err_1.0x_fp00875_ch0.00875',
+    'err_1.0x_fp00875_ch01',
+    'err_1.0x_fp00875_ch01125', 
+    'err_1.0x_fp00875_ch0125'
 ]
 BINS    = 100
-OUTPUT  = "C:/Users/josie/OneDrive - UCB-O365/Floodplain LW transport modelling/testing_each_rfsd/nowood/RMSE_histograms.png"
+OUTPUT  = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\final_calibration_10\results\depth_RMSE_histograms.png"
 
 # Outlier removal: drop rows where ANY error column falls outside ±N std devs.
 # Set to None to disable.

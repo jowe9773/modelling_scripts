@@ -5,8 +5,8 @@ import numpy as np
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-input_tif = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\0.25x_wood_volume_raster.tif"
-output_tif = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\0.25x_wood_volume_raster_scaled.tif"
+input_tif = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\1.0x_wood_volume_raster.tif"
+output_tif = r"C:\Users\josie\OneDrive - UCB-O365\Floodplain LW transport modelling\testing_each_rfsd\1.0x_wood_volume_raster_scaled.tif"
 
 scale_data = True
 SCALE = 1000  # mm → m conversion factor
